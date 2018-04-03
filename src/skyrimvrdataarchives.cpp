@@ -1,13 +1,13 @@
-#include "skyrimSEdataarchives.h"
+#include "skyrimvrdataarchives.h"
 
 #include "iprofile.h"
 #include <utility.h>
 
-SkyrimSEDataArchives::SkyrimSEDataArchives(const QDir &myGamesDir) :
+SkyrimVRDataArchives::SkyrimVRDataArchives(const QDir &myGamesDir) :
   GamebryoDataArchives(myGamesDir)
 {}
 
-QStringList SkyrimSEDataArchives::vanillaArchives() const
+QStringList SkyrimVRDataArchives::vanillaArchives() const
 {
     return{ "Skyrim - Textures0.bsa"
           , "Skyrim - Textures1.bsa"
@@ -25,11 +25,13 @@ QStringList SkyrimSEDataArchives::vanillaArchives() const
           , "Skyrim - Interface.bsa"
           , "Skyrim - Animations.bsa"
           , "Skyrim - Shaders.bsa"
-          , "Skyrim - Misc.bsa" };
+          , "Skyrim - Misc.bsa"
+          , "Skyrim - Patch.bsa"
+          , "Skyrim_VR - Main.bsa" };
 }
 
 
-QStringList SkyrimSEDataArchives::archives(const MOBase::IProfile *profile) const
+QStringList SkyrimVRDataArchives::archives(const MOBase::IProfile *profile) const
 {
   QStringList result;
 
@@ -40,7 +42,7 @@ QStringList SkyrimSEDataArchives::archives(const MOBase::IProfile *profile) cons
   return result;
 }
 
-void SkyrimSEDataArchives::writeArchiveList(MOBase::IProfile *profile, const QStringList &before)
+void SkyrimVRDataArchives::writeArchiveList(MOBase::IProfile *profile, const QStringList &before)
 {
   QString list = before.join(", ");
 

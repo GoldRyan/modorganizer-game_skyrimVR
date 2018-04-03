@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-SET(PROJ_NAME game_skyrimse)
+SET(PROJ_NAME game_skyrimvr)
 
 PROJECT(${PROJ_NAME})
 

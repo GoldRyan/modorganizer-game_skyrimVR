@@ -1,5 +1,5 @@
-#ifndef _SKYRIMSEGAMEPLUGINS_H
-#define _SKYRIMSEGAMEPLUGINS_H
+#ifndef _SKYRIMVRGAMEPLUGINS_H
+#define _SKYRIMVRGAMEPLUGINS_H
 
 
 #include <gamebryogameplugins.h>
@@ -8,10 +8,10 @@
 #include <map>
 
 
-class SkyrimSEGamePlugins : public GamebryoGamePlugins
+class SkyrimVRGamePlugins : public GamebryoGamePlugins
 {
 public:
-  SkyrimSEGamePlugins(MOBase::IOrganizer *organizer);
+  SkyrimVRGamePlugins(MOBase::IOrganizer *organizer);
 
 protected:
   virtual void writePluginList(const MOBase::IPluginList *pluginList,
@@ -23,4 +23,4 @@ private:
   std::map<QString, QByteArray> m_LastSaveHash;
 };
 
-#endif // _SKYRIMSEGAMEPLUGINS_H
+#endif // _SKYRIMVRGAMEPLUGINS_H

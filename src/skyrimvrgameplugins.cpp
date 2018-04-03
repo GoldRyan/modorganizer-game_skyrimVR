@@ -1,4 +1,4 @@
-#include "skyrimSEgameplugins.h"
+#include "skyrimvrgameplugins.h"
 #include <safewritefile.h>
 #include <report.h>
 #include <ipluginlist.h>
@@ -16,12 +16,12 @@ using MOBase::IOrganizer;
 using MOBase::SafeWriteFile;
 using MOBase::reportError;
 
-SkyrimSEGamePlugins::SkyrimSEGamePlugins(IOrganizer *organizer)
+SkyrimVRGamePlugins::SkyrimVRGamePlugins(IOrganizer *organizer)
   : GamebryoGamePlugins(organizer)
 {
 }
 
-void SkyrimSEGamePlugins::writePluginList(const IPluginList *pluginList,
+void SkyrimVRGamePlugins::writePluginList(const IPluginList *pluginList,
                                           const QString &filePath) {
   SafeWriteFile file(filePath);
 
@@ -45,23 +45,22 @@ void SkyrimSEGamePlugins::writePluginList(const IPluginList *pluginList,
 
   //TODO: do not write plugins in OFFICIAL_FILES container
   for (const QString &pluginName : plugins) {
-	if (!PrimaryPlugins.contains(pluginName,Qt::CaseInsensitive)) {
+    if (!PrimaryPlugins.contains(pluginName,Qt::CaseInsensitive)) {
       if (pluginList->state(pluginName) == IPluginList::STATE_ACTIVE) {
         if (!textCodec->canEncode(pluginName)) {
           invalidFileNames = true;
           qCritical("invalid plugin name %s", qPrintable(pluginName));
         }
         else
-        { 
+        {
           file->write("*");
           file->write(textCodec->fromUnicode(pluginName));
-        
         }
         file->write("\r\n");
         ++writtenCount;
       }
-	  else
-	  {
+      else
+      {
         if (!textCodec->canEncode(pluginName)) {
           invalidFileNames = true;
           qCritical("invalid plugin name %s", qPrintable(pluginName));
@@ -72,7 +71,7 @@ void SkyrimSEGamePlugins::writePluginList(const IPluginList *pluginList,
         }
         file->write("\r\n");
         ++writtenCount;
-	  }
+      }
     }
   }
 
@@ -88,7 +87,7 @@ void SkyrimSEGamePlugins::writePluginList(const IPluginList *pluginList,
   }
 }
 
-bool SkyrimSEGamePlugins::readPluginList(MOBase::IPluginList *pluginList,
+bool SkyrimVRGamePlugins::readPluginList(MOBase::IPluginList *pluginList,
                                          bool useLoadOrder)
 {
   QStringList plugins = pluginList->pluginNames();
@@ -122,33 +121,33 @@ bool SkyrimSEGamePlugins::readPluginList(MOBase::IPluginList *pluginList,
     if ((line.size() > 0) && (line.at(0) != '#')) {
       pluginName = localCodec()->toUnicode(line.trimmed().constData());
     }
-	if (!primaryPlugins.contains(pluginName, Qt::CaseInsensitive)) {
-		if (pluginName.startsWith('*')) {
-			pluginName.remove(0, 1);
-			if (pluginName.size() > 0) {
-				pluginList->setState(pluginName, IPluginList::STATE_ACTIVE);
-				plugins.removeAll(pluginName);
-				if (!loadOrder.contains(pluginName, Qt::CaseInsensitive)) {
-					loadOrder.append(pluginName);
-				}
-			}
-		}
-		else
-		{
-			if (pluginName.size() > 0) {
-				pluginList->setState(pluginName, IPluginList::STATE_INACTIVE);
-				plugins.removeAll(pluginName);
-				if (!loadOrder.contains(pluginName, Qt::CaseInsensitive)) {
-					loadOrder.append(pluginName);
-				}
-			}
-		}
-	}
-	else
-	{
-		pluginName.remove(0, 1);
-		plugins.removeAll(pluginName);
-	}
+    if (!primaryPlugins.contains(pluginName, Qt::CaseInsensitive)) {
+        if (pluginName.startsWith('*')) {
+            pluginName.remove(0, 1);
+            if (pluginName.size() > 0) {
+                pluginList->setState(pluginName, IPluginList::STATE_ACTIVE);
+                plugins.removeAll(pluginName);
+                if (!loadOrder.contains(pluginName, Qt::CaseInsensitive)) {
+                    loadOrder.append(pluginName);
+                }
+            }
+        }
+        else
+        {
+            if (pluginName.size() > 0) {
+                pluginList->setState(pluginName, IPluginList::STATE_INACTIVE);
+                plugins.removeAll(pluginName);
+                if (!loadOrder.contains(pluginName, Qt::CaseInsensitive)) {
+                    loadOrder.append(pluginName);
+                }
+            }
+        }
+    }
+    else
+    {
+        pluginName.remove(0, 1);
+        plugins.removeAll(pluginName);
+    }
   }
 
   file.close();

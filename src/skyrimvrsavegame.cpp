@@ -1,12 +1,12 @@
-#include "skyrimSEsavegame.h"
+#include "skyrimvrsavegame.h"
 
 #include <Windows.h>
 
-SkyrimSESaveGame::SkyrimSESaveGame(QString const &fileName, MOBase::IPluginGame const *game, bool const lightEnabled) :
+SkyrimVRSaveGame::SkyrimVRSaveGame(QString const &fileName, MOBase::IPluginGame const *game, bool const lightEnabled) :
   GamebryoSaveGame(fileName, game, lightEnabled)
 {
     FileWrapper file(this, "TESV_SAVEGAME"); //10bytes
-	unsigned long headerSize;
+    unsigned long headerSize;
     file.read(headerSize); // header size "TESV_SAVEGAME"
     file.skip<unsigned long>(); // header version 74. Original Skyrim is 79
     file.read(m_SaveNumber);
@@ -37,11 +37,11 @@ SkyrimSESaveGame::SkyrimSESaveGame(QString const &fileName, MOBase::IPluginGame 
     //For some reason, the file time is off by about 6 hours.
     //So we need to subtract those 6 hours from the filetime.
     _ULARGE_INTEGER time;
-    time.LowPart=ftime.dwLowDateTime;
-    time.HighPart=ftime.dwHighDateTime;
-    time.QuadPart-=2.16e11;
-    ftime.dwHighDateTime=time.HighPart;
-    ftime.dwLowDateTime=time.LowPart;
+    time.LowPart = ftime.dwLowDateTime;
+    time.HighPart = ftime.dwHighDateTime;
+    time.QuadPart -= 2.16e11;
+    ftime.dwHighDateTime = time.HighPart;
+    ftime.dwLowDateTime = time.LowPart;
 
     SYSTEMTIME ctime;
     ::FileTimeToSystemTime(&ftime, &ctime);
@@ -55,19 +55,19 @@ SkyrimSESaveGame::SkyrimSESaveGame(QString const &fileName, MOBase::IPluginGame 
 
     file.read(m_CompressionType);
 
-    file.readImage(width,height,320,true);
+    file.readImage(width, height, 320, true);
 
     file.openCompressedData();
 
-	uint8_t saveGameVersion = file.readChar();
-	uint8_t pluginInfoSize = file.readChar();
-	uint16_t other = file.readShort(); //Unknown
+    uint8_t saveGameVersion = file.readChar();
+    uint8_t pluginInfoSize = file.readChar();
+    uint16_t other = file.readShort(); //Unknown
 
     file.readPlugins(1); // Just empty data
 
-	if (saveGameVersion >= 78) {
-		file.readLightPlugins();
-	}
+    if (saveGameVersion >= 78) {
+        file.readLightPlugins();
+    }
 
     file.closeCompressedData();
 }

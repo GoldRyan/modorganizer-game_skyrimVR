@@ -1,14 +1,14 @@
-#ifndef _SKYRIMSESCRIPTEXTENDER_H
-#define _SKYRIMSESCRIPTEXTENDER_H
+#ifndef _SKYRIMVRSCRIPTEXTENDER_H
+#define _SKYRIMVRSCRIPTEXTENDER_H
 
 #include "gamebryoscriptextender.h"
 
 class GameGamebryo;
 
-class SkyrimSEScriptExtender : public GamebryoScriptExtender
+class SkyrimVRScriptExtender : public GamebryoScriptExtender
 {
 public:
-  SkyrimSEScriptExtender(GameGamebryo const *game);
+  SkyrimVRScriptExtender(GameGamebryo const *game);
 
   virtual QString BinaryName() const override;
   virtual QString PluginPath() const override;
@@ -17,4 +17,4 @@ public:
 
 };
 
-#endif // _SKYRIMSESCRIPTEXTENDER_H
+#endif // _SKYRIMVRSCRIPTEXTENDER_H
